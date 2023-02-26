@@ -7,9 +7,10 @@ import os
 
 postgres_user = os.getenv("POSTGRES_USER")
 postgres_pw = os.getenv("POSTGRES_PW")
+postgres_host = os.getenv("POSTGRES_HOST")
 
 
-my_database_connection = "postgresql://{0}:{1}@localhost/rasa".format(postgres_user, postgres_pw)
+my_database_connection = "postgresql://{0}:{1}@{2}/rasa".format(postgres_user, postgres_pw, postgres_host)
 
 engine = create_engine(my_database_connection)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
