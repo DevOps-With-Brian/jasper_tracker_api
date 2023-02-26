@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jasper-api-tracker
+spec:
+  replicas: 1
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      app: jasper-api-tracker
+  template:
+    metadata:
+      labels:
+        app: jasper-api-tracker
+    spec:
+      containers:
+      - name: jasper-api-tracker
+        image: "devopswithbrian/jasper_tracker_api:latest"
+        imagePullPolicy: Always
+        tty: true
+        env:
+          - name: PYTHONUNBUFFERED
+            value: "0"
+          - name: POSTGRES_HOST
+            valueFrom:
+              secretKeyRef:
+                name: jasper-prd
+                key: POSTGRES_HOST
+          - name: POSTGRES_USER
+            valueFrom:
+              secretKeyRef:
+                name: jasper-prd
+                key: POSTGRES_USER
+          - name: POSTGRES_PW
+            valueFrom:
+              secretKeyRef:
+                name: jasper-prd
+                key: POSTGRES_PW
